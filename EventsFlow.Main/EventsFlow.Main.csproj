@@ -47,16 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal\DummyStorage.cs" />
-    <Compile Include="Internal\EventsProcessorFactory.cs" />
-    <Compile Include="Internal\EventsProcessorWithAsyncStorage.cs" />
-    <Compile Include="Internal\EventsProcessorWithSyncStorage.cs" />
-    <Compile Include="Internal\EventsSourceFactory.cs" />
-    <Compile Include="Internal\NCacheBulkStorage.cs" />
-    <Compile Include="Internal\StorageFactory.cs" />
-    <Compile Include="Internal\NCacheStorage.cs" />
-    <Compile Include="Internal\EventsProcessorBase.cs" />
-    <Compile Include="Internal\EventsSource.cs" />
+    <Compile Include="Impl\EventsProcessorWithAutoConcurrency.cs" />
+    <Compile Include="ExperimentBuilder.cs" />
+    <Compile Include="Impl\DummyStorage.cs" />
+    <Compile Include="Impl\NCacheSyncStorage.cs" />
+    <Compile Include="Impl\NCacheAsyncStorage.cs" />
+    <Compile Include="Impl\NCacheBulkStorage.cs" />
+    <Compile Include="Impl\NCacheStorageBase.cs" />
+    <Compile Include="Impl\EventsProcessorWithManualConcurrency.cs" />
+    <Compile Include="Impl\EventsSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

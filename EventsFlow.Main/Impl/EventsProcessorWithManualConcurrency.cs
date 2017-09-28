@@ -4,17 +4,16 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EventsFlow.Main.Internal
+namespace EventsFlow.Main.Impl
 {
-    internal abstract class EventsProcessorBase : IEventsProcessor
+    public sealed class EventsProcessorWithManualConcurrency : IEventsProcessor
     {
         private readonly IEventsSource _eventsSource;
+        private readonly IStorage _storage;
         private BlockingCollection<Guid> _eventsCollectionForProcess;
-        private Task[] _processors;
+        private Task[] _tasks;
 
-        protected readonly IStorage _storage;
-
-        protected EventsProcessorBase(IStorage storage, IEventsSource eventsSource)
+        public EventsProcessorWithManualConcurrency(IStorage storage, IEventsSource eventsSource)
         {
             _storage = storage;
             _eventsSource = eventsSource;
@@ -23,9 +22,10 @@ namespace EventsFlow.Main.Internal
         public void Process()
         {
             var degreeOfConcurrency = CalculateDegreeOfConcurrency();
-            _eventsCollectionForProcess = new BlockingCollection<Guid>(degreeOfConcurrency+10);
-            _processors = Enumerable
-                .Range(0, degreeOfConcurrency + 4)
+
+            _eventsCollectionForProcess = new BlockingCollection<Guid>(2 * degreeOfConcurrency);
+            _tasks = Enumerable
+                .Range(0, degreeOfConcurrency)
                 .Select(i => Task.Run(() => ProcessEvents()))
                 .ToArray();
 
@@ -35,17 +35,16 @@ namespace EventsFlow.Main.Internal
             }
 
             _eventsCollectionForProcess.CompleteAdding();
+            Task.WaitAll(_tasks);
         }
 
         private void ProcessEvents()
         {
             foreach (var @event in _eventsCollectionForProcess.GetConsumingEnumerable())
             {
-                ProcessInternal(@event.ToString(), new RandomData());
+                _storage.AddOrUpdate(@event.ToString(), new EventData());
             }
         }
-
-        protected abstract void ProcessInternal(string key, object value);
 
         private int CalculateDegreeOfConcurrency()
         {

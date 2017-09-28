@@ -1,7 +1,4 @@
-﻿using EventsFlow.Common;
-using EventsFlow.Main.Internal;
-using System;
-using System.Diagnostics;
+﻿using System;
 
 namespace EventsFlow.Main
 {
@@ -9,52 +6,45 @@ namespace EventsFlow.Main
     {
         static void Main(string[] args)
         {
-            var eventsSourceFactory = new EventsSourceFactory(100000);
-            var eventsProcessorWithSyncStorageFactory = new EventsProcessorWithSyncStorageFactory();
-            var eventsProcessorWithAsyncStorageFactory = new EventsProcessorWithAsyncStorageFactory();
-
-            var dummyStorageFactory = new DummyStorageFactory();
-            var internalCacheFactory = new NCacheInternalStorageFactory();
-            var externalCacheFactory = new NCacheExternalStorageFactory();
-            var bulkStorageFactory = new NCacheBulkStorageFactory();
+            var eventsCount = GetEventCount(args);
+            var experimentBuilder = new ExperimentBuilder(eventsCount);
 
             try
             {
-                //MakeExperiment("DummyStorage + blockingCollection", dummyStorageFactory, eventsSourceFactory, eventsProcessorWithAsyncStorageFactory);
-                //MakeExperiment("NCacheInternal + sync + blockingCollection", internalCacheFactory, eventsSourceFactory, eventsProcessorWithSyncStorageFactory);
-                MakeExperiment("NCacheInternal + sync + bulkStorage + blockingCollection", bulkStorageFactory, eventsSourceFactory, eventsProcessorWithSyncStorageFactory);
-                //MakeExperiment("NCacheInternal + async + blockingCollection", internalCacheFactory, eventsSourceFactory, eventsProcessorWithAsyncStorageFactory);
-                //MakeExperiment("NCacheExternal + blockingCollection", externalCacheFactory, eventsSourceFactory, eventsProcessorFactory);
+                //experimentBuilder.DoWithDummyStorageAndAutoConcurrency();                     //6100ms
+                //experimentBuilder.DoWithDummyStorageAndManualConcurrency();                   //9140ms
+
+                //experimentBuilder.DoWithInternalSyncStorageStorageAndAutoConcurrency();       //97740ms
+                //experimentBuilder.DoWithInternalSyncStorageStorageAndManualConcurrency();     //97400ms
+                
+                //experimentBuilder.DoWithInternalAsyncStorageStorageAndAutoConcurrency();
+                //experimentBuilder.DoWithInternalAsyncStorageStorageAndManualConcurrency();    //95000ms
+
+                //experimentBuilder.DoWithInternalBulkStorageStorageAndAutoConcurrency();       //9700ms
+                experimentBuilder.DoWithInternalBulkStorageStorageAndManualConcurrency();       //11620ms
+
+                //experimentBuilder.DoWithExternalSyncStorageStorageAndManualConcurrency();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex.Message}");
             }
-            
+
+            Console.WriteLine("Press any key ...");
             Console.ReadLine();
         }
 
-        private static void MakeExperiment(string experimentName, IStorageFactory storageFactory, IEventsSourceFactory eventsSourceFactory, IEventsProcessorFactory eventsProcessorFactory)
+        private static long GetEventCount(string[] args)
         {
-            for (int i = 0; i < 3; i++)
+            long result = 0;
+
+            if (args == null || args.Length == 0 || !long.TryParse(args[0], out result))
             {
-                Console.WriteLine($"=========== {experimentName} ===========");
-
-                var stopWatch = new Stopwatch();
-
-                using (var storage = storageFactory.Create())
-                {
-                    var eventsSource = eventsSourceFactory.Create();
-                    var eventsProcessor = eventsProcessorFactory.Create(eventsSource, storage);
-
-                    stopWatch.Start();
-                    eventsProcessor.Process();
-                    stopWatch.Stop();
-                    Console.WriteLine($"Duration = {stopWatch.ElapsedMilliseconds} milliseconds.");
-                }
-
-                Console.WriteLine("========================================");
+                result = 1000000;
+                Console.WriteLine($"EventS count parameter isn't set. Set default = {result}");
             }
+
+            return result;
         }
     }
 }

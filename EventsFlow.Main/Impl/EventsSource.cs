@@ -3,21 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EventsFlow.Main.Internal
+namespace EventsFlow.Main.Impl
 {
-    internal sealed class EventsSource : IEventsSource
+    public sealed class EventsSource : IEventsSource
     {
         private const int TotalValuesPercent = 100;
         private const int UniqueValuesPercent = 80;
+        private const int PregeneratedValuesCount = 200;
 
         private readonly PregeneratedValues _pregeneratedValues;
         private readonly long _maxEventCount;
         private readonly Random _rnd;
 
-        internal EventsSource(long maxEventCount)
+        public EventsSource(long maxEventCount)
         {
             _maxEventCount = maxEventCount;
-            _pregeneratedValues = new PregeneratedValues(200);
+            _pregeneratedValues = new PregeneratedValues(PregeneratedValuesCount);
             _rnd = new Random();
         }
 

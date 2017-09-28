@@ -40,14 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IEventsProcessorFactory.cs" />
-    <Compile Include="IEventsSourceFactory.cs" />
     <Compile Include="IStorage.cs" />
     <Compile Include="IEventsProcessor.cs" />
     <Compile Include="IEventsSource.cs" />
-    <Compile Include="IStorageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomData.cs" />
+    <Compile Include="EventData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

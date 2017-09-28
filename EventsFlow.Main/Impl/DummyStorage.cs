@@ -1,14 +1,10 @@
 ﻿using EventsFlow.Common;
 
-namespace EventsFlow.Main.Internal
+namespace EventsFlow.Main.Impl
 {
-    internal sealed class DummyStorage : IStorage
+    public sealed class DummyStorage : IStorage
     {
         public void AddOrUpdate(string key, object value)
-        {            
-        }
-
-        public void AddOrUpdateAsync(string key, object value)
         {            
         }
 
