@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsFlow.Main", "EventsFlow.Main\EventsFlow.Main.csproj", "{94C47AC1-38A6-4803-B9D7-99D8BD25D669}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsFlow.Common", "EventsFlow.Common\EventsFlow.Common.csproj", "{57071E15-9778-4361-8564-CD0C0985EA57}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94C47AC1-38A6-4803-B9D7-99D8BD25D669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C47AC1-38A6-4803-B9D7-99D8BD25D669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C47AC1-38A6-4803-B9D7-99D8BD25D669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C47AC1-38A6-4803-B9D7-99D8BD25D669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57071E15-9778-4361-8564-CD0C0985EA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57071E15-9778-4361-8564-CD0C0985EA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57071E15-9778-4361-8564-CD0C0985EA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57071E15-9778-4361-8564-CD0C0985EA57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
