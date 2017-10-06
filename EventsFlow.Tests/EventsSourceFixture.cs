@@ -17,7 +17,7 @@ namespace EventsFlow.Tests
             var sut = new EventsSource(eventsCount);
 
             var realEventsCount = 0;
-            foreach (var @event in sut.Events)
+            foreach (var @event in sut.GetEvents())
             {
                 realEventsCount++;
             }

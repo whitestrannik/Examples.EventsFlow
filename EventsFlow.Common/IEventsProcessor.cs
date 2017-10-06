@@ -5,6 +5,6 @@
     /// </summary>
     public interface IEventsProcessor
     {
-        void Process();
+        void Process(IEventsSource source);
     }
 }

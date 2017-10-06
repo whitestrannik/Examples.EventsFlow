@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EventsFlow.Tests
 {
@@ -18,9 +17,9 @@ namespace EventsFlow.Tests
             var eventsSource = new EventsSourceMock(inputData);
             var storage = new StorageMock();
 
-            var sut = new EventsProcessorWithAutoConcurrency(storage, eventsSource);
+            var sut = new EventsProcessorWithAutoConcurrency(storage);
 
-            sut.Process();
+            sut.Process(eventsSource);
 
             Assert.AreEqual(storage.Result.Count, inputData.Count);
         }
@@ -59,12 +58,9 @@ namespace EventsFlow.Tests
                 _data = data;
             }
 
-            public IEnumerable<Guid> Events
+            public IEnumerable<Guid> GetEvents()
             {
-                get
-                {
-                    return _data;
-                }
+                return _data;
             }
         }
     }

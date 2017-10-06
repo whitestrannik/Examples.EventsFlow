@@ -22,16 +22,13 @@ namespace EventsFlow.Main.Impl
             _rnd = new Random();
         }
 
-        public IEnumerable<Guid> Events
+        public IEnumerable<Guid> GetEvents()
         {
-            get
+            var i = 0L;
+            while (i < _maxEventCount)
             {
-                var i = 0L;
-                while (i < _maxEventCount)
-                {
-                    yield return GenerateEvent();
-                    i++;
-                }
+                yield return GenerateEvent();
+                i++;
             }
         }
 

@@ -13,13 +13,12 @@ namespace EventsFlow.Main.Impl
         private BlockingCollection<Guid> _eventsCollectionForProcess;
         private Task[] _tasks;
 
-        public EventsProcessorWithManualConcurrency(IStorage storage, IEventsSource eventsSource)
+        public EventsProcessorWithManualConcurrency(IStorage storage)
         {
             _storage = storage;
-            _eventsSource = eventsSource;
         }
 
-        public void Process()
+        public void Process(IEventsSource eventsSource)
         {
             var degreeOfConcurrency = CalculateDegreeOfConcurrency();
 
@@ -29,7 +28,7 @@ namespace EventsFlow.Main.Impl
                 .Select(i => Task.Run(() => ProcessEvents()))
                 .ToArray();
 
-            foreach (var @event in _eventsSource.Events)
+            foreach (var @event in _eventsSource.GetEvents())
             {
                 _eventsCollectionForProcess.Add(@event);
             }
@@ -46,7 +45,7 @@ namespace EventsFlow.Main.Impl
             }
         }
 
-        private int CalculateDegreeOfConcurrency()
+        private static int CalculateDegreeOfConcurrency()
         {
             return Environment.ProcessorCount;
         }

@@ -8,6 +8,6 @@ namespace EventsFlow.Common
     /// </summary>
     public interface IEventsSource
     {
-        IEnumerable<Guid> Events { get; }
+        IEnumerable<Guid> GetEvents();
     }
 }

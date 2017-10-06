@@ -20,9 +20,9 @@ namespace EventsFlow.Main
             using (var storage = new DummyStorage())
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage);
 
-                MakeExperiment("Dummy storage + manual concurrency", eventsProcessor);
+                MakeExperiment("Dummy storage + manual concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -31,9 +31,9 @@ namespace EventsFlow.Main
             using (var storage = new DummyStorage())
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage);
 
-                MakeExperiment("Dummy storage + auto concurrency", eventsProcessor);
+                MakeExperiment("Dummy storage + auto concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -42,9 +42,9 @@ namespace EventsFlow.Main
             using (var storage = new NCacheSyncStorage("MyInternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage);
 
-                MakeExperiment("Sync in-proc storage + manual concurrency", eventsProcessor);
+                MakeExperiment("Sync in-proc storage + manual concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -53,9 +53,9 @@ namespace EventsFlow.Main
             using (var storage = new NCacheSyncStorage("MyInternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage);
 
-                MakeExperiment("Sync in-proc storage + auto concurrency", eventsProcessor);
+                MakeExperiment("Sync in-proc storage + auto concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -64,9 +64,9 @@ namespace EventsFlow.Main
             using (var storage = new NCacheAsyncStorage("MyInternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage);
 
-                MakeExperiment("Async in-proc storage + manual concurrency", eventsProcessor);
+                MakeExperiment("Async in-proc storage + manual concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -75,9 +75,9 @@ namespace EventsFlow.Main
             using (var storage = new NCacheAsyncStorage("MyInternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage);
 
-                MakeExperiment("Async in-proc storage + auto concurrency", eventsProcessor);
+                MakeExperiment("Async in-proc storage + auto concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -86,9 +86,9 @@ namespace EventsFlow.Main
             using (var storage = new NCacheBulkStorage("MyInternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage);
 
-                MakeExperiment("Bulk in-proc storage + manual concurrency", eventsProcessor);
+                MakeExperiment("Bulk in-proc storage + manual concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -97,9 +97,9 @@ namespace EventsFlow.Main
             using (var storage = new NCacheBulkStorage("MyInternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithAutoConcurrency(storage);
 
-                MakeExperiment("Bulk in-proc storage + auto concurrency", eventsProcessor);
+                MakeExperiment("Bulk in-proc storage + auto concurrency", eventsProcessor, eventsSource);
             }
         }
 
@@ -108,19 +108,19 @@ namespace EventsFlow.Main
             using (var storage = new NCacheSyncStorage("MyExternalCache"))
             {
                 var eventsSource = new EventsSource(_eventsCount);
-                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage, eventsSource);
+                var eventsProcessor = new EventsProcessorWithManualConcurrency(storage);
 
-                MakeExperiment("Sync out-proc storage + manual concurrency", eventsProcessor);
+                MakeExperiment("Sync out-proc storage + manual concurrency", eventsProcessor, eventsSource);
             }
         }
 
-        private static void MakeExperiment(string experimentName, IEventsProcessor eventsProcessor)
+        private static void MakeExperiment(string experimentName, IEventsProcessor eventsProcessor, IEventsSource eventsSource)
         {
             Console.WriteLine($"=========== {experimentName} ===========");
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            eventsProcessor.Process();
+            eventsProcessor.Process(eventsSource);
             stopWatch.Stop();
             Console.WriteLine($"Duration of experiment = {stopWatch.ElapsedMilliseconds} milliseconds.");
         }

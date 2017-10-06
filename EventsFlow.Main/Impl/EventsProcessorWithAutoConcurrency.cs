@@ -6,18 +6,16 @@ namespace EventsFlow.Main.Impl
 {
     public sealed class EventsProcessorWithAutoConcurrency : IEventsProcessor
     {
-        private readonly IEventsSource _eventsSource;
         private readonly IStorage _storage;
 
-        public EventsProcessorWithAutoConcurrency(IStorage storage, IEventsSource eventsSource)
+        public EventsProcessorWithAutoConcurrency(IStorage storage)
         {
             _storage = storage;
-            _eventsSource = eventsSource;
         }
 
-        public void Process()
+        public void Process(IEventsSource eventsSource)
         {
-            Parallel.ForEach(_eventsSource.Events, ProcessEvents);
+            Parallel.ForEach(eventsSource.GetEvents(), ProcessEvents);
         }
 
         private void ProcessEvents(Guid @event)

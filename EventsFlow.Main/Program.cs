@@ -14,14 +14,14 @@ namespace EventsFlow.Main
                 //experimentBuilder.DoWithDummyStorageAndAutoConcurrency();                     //6100ms
                 //experimentBuilder.DoWithDummyStorageAndManualConcurrency();                   //9140ms
 
-                //experimentBuilder.DoWithInternalSyncStorageStorageAndAutoConcurrency();       //97740ms
+                experimentBuilder.DoWithInternalSyncStorageStorageAndAutoConcurrency();       //97740ms
                 //experimentBuilder.DoWithInternalSyncStorageStorageAndManualConcurrency();     //97400ms
                 
                 //experimentBuilder.DoWithInternalAsyncStorageStorageAndAutoConcurrency();
                 //experimentBuilder.DoWithInternalAsyncStorageStorageAndManualConcurrency();    //95000ms
 
                 //experimentBuilder.DoWithInternalBulkStorageStorageAndAutoConcurrency();       //9700ms
-                experimentBuilder.DoWithInternalBulkStorageStorageAndManualConcurrency();       //11620ms
+                //experimentBuilder.DoWithInternalBulkStorageStorageAndManualConcurrency();       //11620ms
 
                 //experimentBuilder.DoWithExternalSyncStorageStorageAndManualConcurrency();
             }
